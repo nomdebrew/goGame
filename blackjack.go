@@ -164,7 +164,7 @@ func SetAllOfHandAsSeen(hand map[string]int) {
 
 // waits for user input, then proceeds to game
 func GetCardGameSettings(gameName string) (int, int) {
-	WelcomeScreenAndSettings(gameName)
+	BannerScreen(gameName)
 	numberOfPlayers := InputReaderToInt("How many players are there? ")
 	numberOfDecksInShoot := InputReaderToInt("How many decks would you like the shoot to have? ")
 	CallClear()

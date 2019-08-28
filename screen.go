@@ -40,13 +40,10 @@ func CallClear() {
 	}
 }
 
-// clears screen prints welcome message
-func WelcomeScreenAndSettings(gameName string) {
-	CallClear()
-	gameOverBanner := figure.NewFigure("WELCOME", "slant", true)
-	gameOverBanner.Print()
-	gameOverBanner = figure.NewFigure(gameName, "slant", true)
-	gameOverBanner.Print()
+// clears screen prints message as ASCII banner
+func BannerScreen(message string) {
+	welcomeBanner := figure.NewFigure(message, "slant", true)
+	welcomeBanner.Print()
 }
 
 // closes game
