@@ -1,13 +1,19 @@
 package main
 
 import (
+	"bufio"
+	"fmt"
 	"os"
 	"os/exec"
 	"runtime"
+	"strconv"
+	"strings"
+	"time"
+
+	figure "github.com/common-nighthawk/go-figure"
 )
 
-// code from https://stackoverflow.com/questions/22891644/how-can-i-clear-the-terminal-screen-in-go
-
+// claer screen code from https://stackoverflow.com/questions/22891644/how-can-i-clear-the-terminal-screen-in-go
 var clear map[string]func() //create a map for storing clear funcs
 
 func init() {
@@ -32,4 +38,46 @@ func CallClear() {
 	} else { //unsupported platform
 		panic("Your platform is unsupported! I can't clear terminal screen :(")
 	}
+}
+
+// clears screen prints welcome message
+func WelcomeScreenAndSettings(gameName string) {
+	CallClear()
+	gameOverBanner := figure.NewFigure("WELCOME", "slant", true)
+	gameOverBanner.Print()
+	gameOverBanner = figure.NewFigure(gameName, "slant", true)
+	gameOverBanner.Print()
+}
+
+// closes game
+func GameOver(messageToUser string) {
+	fmt.Println("\n", messageToUser)
+	gameOverBanner := figure.NewFigure("Game   Over", "slant", true)
+	gameOverBanner.Print()
+	time.Sleep(3 * time.Second)
+	os.Exit(3)
+}
+
+// listens for input, prints message to user, converts string to int
+func InputReaderToInt(messageToUser string) int {
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Println(messageToUser)
+	stringRead, _ := reader.ReadString('\n')
+	stringRead = strings.Replace(stringRead, "\r\n", "", -1) // change "\r\n" to "\n" for uninx, end of line termination different
+	intRead, anErrorMessage := strconv.Atoi(stringRead)
+	if anErrorMessage != nil || intRead == 0 {
+		fmt.Println("You entered "+stringRead+", which was read as ", intRead, anErrorMessage)
+		fmt.Println("You must enter an integer greater than 0\n")
+		InputReaderToInt(messageToUser)
+	}
+	return intRead
+}
+
+// takes string that will be pritned to the user records the resopnse and returns it as a string
+func InputReaderToString(messageToUser string) string {
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Print(messageToUser)
+	stringRead, _ := reader.ReadString('\n')
+	stringRead = strings.Replace(stringRead, "\r\n", "", -1) // change "\r\n" to "\n" for uninx, end of line termination different
+	return stringRead
 }
