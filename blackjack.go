@@ -12,53 +12,53 @@ import (
 	figure "github.com/common-nighthawk/go-figure"
 )
 
-// you shold know what a main function does... get out of here!
-func main() {
-	numberOfPlayers, numberOfDecksInShoot := welcomeScreenAndSettings()
-	deck := makeDeck(numberOfDecksInShoot)
-	allPlayers := generatePlayers(numberOfPlayers)
-	allHands := drawAllHands(deck, allPlayers)
-	setCardAsUnseen(allPlayers, "Dealer", 2)
-	printAllHands(allHands)
-	playGame(allHands, deck)
-	didPlayerWin(allHands)
-	//printAllHands(allHands)
-}
+// // you shold know what a main function does... get out of here!
+// func main() {
+// 	numberOfPlayers, numberOfDecksInShoot := GetCardGameSettings("BLACKJACK")
+// 	deck := MakeDeck(numberOfDecksInShoot)
+// 	allPlayers := GeneratePlayers(numberOfPlayers)
+// 	allHands := DrawAllHands(deck, allPlayers)
+// 	SetCardAsUnseen(allPlayers, "Dealer", 2)
+// 	PrintAllHands(allHands)
+// 	PlayGame(allHands, deck)
+// 	DidPlayerWin(allHands)
+// 	GameOver("Thank you for playing")
+// }
 
 // initializes game logic for each player to play the game
 // ** update to play in order **
-func playGame(allPlayers map[string]map[string]int, deck map[string]int) {
+func PlayGame(allPlayers map[string]map[string]int, deck map[string]int) {
 	for player, _ := range allPlayers {
-		allPlayers[player] = playerPlayHand(player, allPlayers[player], deck)
+		allPlayers[player] = PlayerPlayHand(player, allPlayers[player], deck)
 	}
 }
 
 // takes player's name, hand, deck and returns an updated hand
-func playerPlayHand(player string, hand map[string]int, deck map[string]int) map[string]int {
-	if hasHit21(hand) == true {
+func PlayerPlayHand(player string, hand map[string]int, deck map[string]int) map[string]int {
+	if HasHit21(hand) == true {
 		return hand
 	}
-	printHand(player, hand)
-	if hasPlayerBusted(hand) == true {
+	PrintHand(player, hand)
+	if HasPlayerBusted(hand) == true {
 		return hand
 	}
 	if player == "Dealer" {
-		for (hasPlayerBusted(hand) || valueOfHand(hand) >= 16) == false {
-			hand[drawCard(deck)] = 1
-			playerPlayHand(player, hand, deck)
+		for (HasPlayerBusted(hand) || ValueOfHand(hand) >= 16) == false {
+			hand[DrawCard(deck)] = 1
+			PlayerPlayHand(player, hand, deck)
 		}
-		// while hasPlayerBusted(hand) == false && totalOfHand <16
-		// hand[drawCard(deck)] = 1
-		// playerPlayHand(player, hand, deck)
+		// while HasPlayerBusted(hand) == false && totalOfHand <16
+		// hand[DrawCard(deck)] = 1
+		// PlayerPlayHand(player, hand, deck)
 		return hand
 	}
-	response := strings.ToLower(inputReaderToString("Would you like to hit (H) or stay (S)?  "))
+	response := strings.ToLower(InputReaderToString("Would you like to hit (H) or stay (S)?  "))
 	switch response {
 	case "s":
 		return hand
 	case "h":
-		hand[drawCard(deck)] = 1
-		playerPlayHand(player, hand, deck)
+		hand[DrawCard(deck)] = 1
+		PlayerPlayHand(player, hand, deck)
 	default:
 		fmt.Println("Invalid selection, please choose again. ")
 	}
@@ -66,20 +66,20 @@ func playerPlayHand(player string, hand map[string]int, deck map[string]int) map
 }
 
 // checks if hand is equal to 21 and retruns a boolean
-func hasHit21(hand map[string]int) bool {
-	if valueOfHand(hand) == 21 {
+func HasHit21(hand map[string]int) bool {
+	if ValueOfHand(hand) == 21 {
 		return true
 	}
 	return false
 }
 
 // check see if the player has busted
-func hasPlayerBusted(hand map[string]int) bool {
-	return valueOver21(valueOfHand(hand))
+func HasPlayerBusted(hand map[string]int) bool {
+	return ValueOver21(ValueOfHand(hand))
 }
 
 // check value for being greater than 21
-func valueOver21(totalOfHand int) bool {
+func ValueOver21(totalOfHand int) bool {
 	if totalOfHand > 21 {
 		//fmt.Print(" BUSTED ")
 		return true
@@ -92,16 +92,16 @@ func valueOver21(totalOfHand int) bool {
 }
 
 // cauculates the running total of the current hand and returns the sum as an int
-func valueOfHand(hand map[string]int) int {
+func ValueOfHand(hand map[string]int) int {
 	totalOfHand := 0
 	for card := range hand {
 		//fmt.Println(string(card[0]))
-		totalOfHand += cardToNumericValue(string(card[0]))
-		// if valueOver21(totalOfHand) && string(card[0]) == "A" {
+		totalOfHand += CardToNumericValue(string(card[0]))
+		// if ValueOver21(totalOfHand) && string(card[0]) == "A" {
 		// 	card[0] = rune("1")
 		// }
 	}
-	if valueOver21(totalOfHand) {
+	if ValueOver21(totalOfHand) {
 		for card := range hand {
 			if string(card[0]) == "A" {
 				totalOfHand -= 10
@@ -112,7 +112,7 @@ func valueOfHand(hand map[string]int) int {
 }
 
 // takes a string containg the card number(2, 4, J, K, etc) an returns the int value
-func cardToNumericValue(card string) int {
+func CardToNumericValue(card string) int {
 	switch card {
 	case "J", "Q", "K", "1":
 		return 10
@@ -125,25 +125,25 @@ func cardToNumericValue(card string) int {
 }
 
 // check to see if player won
-func didPlayerWin(allHands map[string]map[string]int) {
-	setAllOfHandAsSeen(allHands["Dealer"])
-	dealersHand := valueOfHand(allHands["Dealer"])
-	if valueOver21(dealersHand) {
+func DidPlayerWin(allHands map[string]map[string]int) {
+	SetAllOfHandAsSeen(allHands["Dealer"])
+	dealersHand := ValueOfHand(allHands["Dealer"])
+	if ValueOver21(dealersHand) {
 		dealersHand = 0
 	}
 	for player, hand := range allHands {
-		if player != "Dealer" && valueOver21(valueOfHand(hand)) == false {
-			if valueOfHand(hand) > dealersHand {
-				printHand(player, hand)
+		if player != "Dealer" && ValueOver21(ValueOfHand(hand)) == false {
+			if ValueOfHand(hand) > dealersHand {
+				PrintHand(player, hand)
 				fmt.Print(" **WINNER** ")
 			} else {
-				printHand(player, hand)
+				PrintHand(player, hand)
 				fmt.Print(" **LOSER** ")
 			}
 		} else if player == "Dealer" {
-			printHand(player, hand)
+			PrintHand(player, hand)
 		} else {
-			printHand(player, hand)
+			PrintHand(player, hand)
 			fmt.Print(" **LOSER** ")
 		}
 	}
@@ -151,23 +151,23 @@ func didPlayerWin(allHands map[string]map[string]int) {
 }
 
 // makes deck
-func makeDeck(numberOfDecksInShoot int) map[string]int {
+func MakeDeck(numberOfDecksInShoot int) map[string]int {
 	deck := map[string]int{}
 	for i := 0; i < 52; i++ {
-		deck[prettyCard(i%13+1, i%4)] = numberOfDecksInShoot
+		deck[PrettyCard(i%13+1, i%4)] = numberOfDecksInShoot
 	}
 	return deck
 }
 
 // prints hands of all players
-func printAllHands(allHands map[string]map[string]int) {
+func PrintAllHands(allHands map[string]map[string]int) {
 	for player, playerHand := range allHands {
-		printHand(player, playerHand)
+		PrintHand(player, playerHand)
 	}
 }
 
 // prints the players hand omiting dealers second card and if dealer hit blackjack
-func printHand(player string, hand map[string]int) {
+func PrintHand(player string, hand map[string]int) {
 	fmt.Print("\n" + player + ": ")
 	for cards := range hand {
 		if hand[cards] == 2 {
@@ -177,20 +177,20 @@ func printHand(player string, hand map[string]int) {
 		}
 	}
 	if player != "Dealer" {
-		printValueOfHand(hand)
-		if valueOfHand(hand) == 21 {
+		PrintValueOfHand(hand)
+		if ValueOfHand(hand) == 21 {
 			fmt.Print("  *BlackJack*  ")
 		}
 	}
 }
 
 // print value of hand
-func printValueOfHand(hand map[string]int) {
-	fmt.Print(" You have: ", valueOfHand(hand), " ")
+func PrintValueOfHand(hand map[string]int) {
+	fmt.Print(" You have: ", ValueOfHand(hand), " ")
 }
 
 // gernerate players
-func generatePlayers(numberOfPlayers int) map[string]map[string]int {
+func GeneratePlayers(numberOfPlayers int) map[string]map[string]int {
 	allHands := map[string]map[string]int{}
 	for i := 0; i < numberOfPlayers; i++ {
 		allHands["Player"+strconv.Itoa(i)] = map[string]int{}
@@ -200,15 +200,15 @@ func generatePlayers(numberOfPlayers int) map[string]map[string]int {
 }
 
 // drwas inital cards for all players
-func drawAllHands(deck map[string]int, allPlayers map[string]map[string]int) map[string]map[string]int {
+func DrawAllHands(deck map[string]int, allPlayers map[string]map[string]int) map[string]map[string]int {
 	for player := range allPlayers {
-		allPlayers[player] = drawHand(deck)
+		allPlayers[player] = DrawHand(deck)
 	}
 	return allPlayers
 }
 
 // makes on of the dealers cars unseen, usually the second
-func setCardAsUnseen(allHands map[string]map[string]int, playerName string, cardNumber int) map[string]map[string]int {
+func SetCardAsUnseen(allHands map[string]map[string]int, playerName string, cardNumber int) map[string]map[string]int {
 	i := 0
 	for dealer := range allHands[playerName] {
 		i++
@@ -220,40 +220,39 @@ func setCardAsUnseen(allHands map[string]map[string]int, playerName string, card
 }
 
 // makes all cards visible
-func setAllOfHandAsSeen(hand map[string]int) {
+func SetAllOfHandAsSeen(hand map[string]int) {
 	for card := range hand {
 		hand[card] = 1
 	}
 }
 
 // draws two cards to make intial hand
-func drawHand(deck map[string]int) map[string]int {
+func DrawHand(deck map[string]int) map[string]int {
 	hand := map[string]int{}
 	for i := 0; i < 2; i++ {
-		hand[drawCard(deck)] = 1
+		hand[DrawCard(deck)] = 1
 	}
 	return hand
 }
 
 // to draw the card form the deck a check is performed to see if the card has already been drawn in not the deck is decremented by 1 if it has the function calls itself recursively until a unique card is found
-func drawCard(deck map[string]int) string {
+func DrawCard(deck map[string]int) string {
 	card := rand.Intn(52)
-	if isDeckEmpty(deck) == true {
-		fmt.Println("You are out of cards")
-		gameOver()
+	if IsDeckEmpty(deck) == true {
+		GameOver("You are out of cards")
 	}
-	if deck[prettyCard(card%13+1, card%4)] != 0 {
-		deck[prettyCard(card%13+1, card%4)] = deck[prettyCard(card%13+1, card%4)] - 1
-		return prettyCard(card%13+1, card%4)
+	if deck[PrettyCard(card%13+1, card%4)] != 0 {
+		deck[PrettyCard(card%13+1, card%4)] = deck[PrettyCard(card%13+1, card%4)] - 1
+		return PrettyCard(card%13+1, card%4)
 	} else {
-		drawCard(deck)
+		DrawCard(deck)
 		// make escape case for when the deck is empty
 	}
 	return "error"
 }
 
 //makes sure the deck isn't empty
-func isDeckEmpty(deck map[string]int) bool {
+func IsDeckEmpty(deck map[string]int) bool {
 	totalInDeck := 0
 	for _, cardCount := range deck {
 		totalInDeck += cardCount
@@ -266,7 +265,7 @@ func isDeckEmpty(deck map[string]int) bool {
 }
 
 // convers two numbers representing card number and suit to a single string ex: 11, 1 => "J♥"
-func prettyCard(card, suit int) string {
+func PrettyCard(card, suit int) string {
 	var suitIcon, cardName = "", ""
 	switch suit {
 	default:
@@ -297,23 +296,26 @@ func prettyCard(card, suit int) string {
 	return cardName + suitIcon
 }
 
-// clears screen prints welcome message, waits for user input, then proceeds to game
-func welcomeScreenAndSettings() (int, int) {
+// clears screen prints welcome message
+func WelcomeScreenAndSettings(gameName string) {
 	CallClear()
 	gameOverBanner := figure.NewFigure("WELCOME", "slant", true)
 	gameOverBanner.Print()
-	gameOverBanner = figure.NewFigure("BLACKJACK", "slant", true)
+	gameOverBanner = figure.NewFigure(gameName, "slant", true)
 	gameOverBanner.Print()
-	numberOfPlayers := inputReaderToInt("How many players are there? ")
-	numberOfDecksInShoot := inputReaderToInt("How many decks would you like the shoot to have? ")
-	//time.Sleep(3 * time.Second)
+}
+
+// waits for user input, then proceeds to game
+func GetCardGameSettings(gameName string) (int, int) {
+	WelcomeScreenAndSettings(gameName)
+	numberOfPlayers := InputReaderToInt("How many players are there? ")
+	numberOfDecksInShoot := InputReaderToInt("How many decks would you like the shoot to have? ")
 	CallClear()
-	// return numberOfPlayers, numberOfDecksInShoot
 	return numberOfPlayers, numberOfDecksInShoot
 }
 
 // listens for input, prints message to user, converts string to int
-func inputReaderToInt(messageToUser string) int {
+func InputReaderToInt(messageToUser string) int {
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Println(messageToUser)
 	stringRead, _ := reader.ReadString('\n')
@@ -322,13 +324,13 @@ func inputReaderToInt(messageToUser string) int {
 	if anErrorMessage != nil || intRead == 0 {
 		fmt.Println("You entered "+stringRead+", which was read as ", intRead, anErrorMessage)
 		fmt.Println("You must enter an integer greater than 0\n")
-		inputReaderToInt(messageToUser)
+		InputReaderToInt(messageToUser)
 	}
 	return intRead
 }
 
 // takes string that will be pritned to the user records the resopnse and returns it as a string
-func inputReaderToString(messageToUser string) string {
+func InputReaderToString(messageToUser string) string {
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Print(messageToUser)
 	stringRead, _ := reader.ReadString('\n')
@@ -337,7 +339,8 @@ func inputReaderToString(messageToUser string) string {
 }
 
 // closes game
-func gameOver() {
+func GameOver(messageToUser string) {
+	fmt.Println("\n", messageToUser)
 	gameOverBanner := figure.NewFigure("Game   Over", "slant", true)
 	gameOverBanner.Print()
 	time.Sleep(3 * time.Second)

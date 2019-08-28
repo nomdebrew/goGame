@@ -24,6 +24,7 @@ func init() {
 	}
 }
 
+/*CallClear clears the screen*/
 func CallClear() {
 	value, ok := clear[runtime.GOOS] //runtime.GOOS -> linux, windows, darwin etc.
 	if ok {                          //if we defined a clear func for that platform:
@@ -32,10 +33,3 @@ func CallClear() {
 		panic("Your platform is unsupported! I can't clear terminal screen :(")
 	}
 }
-
-// func main() {
-// 	fmt.Println("I will clean the screen in 2 seconds!")
-// 	time.Sleep(2 * time.Second)
-// 	CallClear()
-// 	fmt.Println("I'm alone...")
-// }
