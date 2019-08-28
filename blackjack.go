@@ -7,6 +7,9 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
+
+	figure "github.com/common-nighthawk/go-figure"
 )
 
 // you shold know what a main function does... get out of here!
@@ -65,7 +68,6 @@ func playerPlayHand(player string, hand map[string]int, deck map[string]int) map
 // checks if hand is equal to 21 and retruns a boolean
 func hasHit21(hand map[string]int) bool {
 	if valueOfHand(hand) == 21 {
-
 		return true
 	}
 	return false
@@ -233,11 +235,13 @@ func drawHand(deck map[string]int) map[string]int {
 	return hand
 }
 
-// to draw the card form the deck a check is performed to see if the card has already been
-// drawn in not the deck is decremented by 1 if it has the function calls itself recursively
-// until a unique card is found
+// to draw the card form the deck a check is performed to see if the card has already been drawn in not the deck is decremented by 1 if it has the function calls itself recursively until a unique card is found
 func drawCard(deck map[string]int) string {
 	card := rand.Intn(52)
+	if isDeckEmpty(deck) == true {
+		fmt.Println("You are out of cards")
+		gameOver()
+	}
 	if deck[prettyCard(card%13+1, card%4)] != 0 {
 		deck[prettyCard(card%13+1, card%4)] = deck[prettyCard(card%13+1, card%4)] - 1
 		return prettyCard(card%13+1, card%4)
@@ -246,6 +250,19 @@ func drawCard(deck map[string]int) string {
 		// make escape case for when the deck is empty
 	}
 	return "error"
+}
+
+//makes sure the deck isn't empty
+func isDeckEmpty(deck map[string]int) bool {
+	totalInDeck := 0
+	for _, cardCount := range deck {
+		totalInDeck += cardCount
+	}
+	if totalInDeck > 0 {
+		return false
+	} else {
+		return true
+	}
 }
 
 // convers two numbers representing card number and suit to a single string ex: 11, 1 => "J♥"
@@ -283,17 +300,10 @@ func prettyCard(card, suit int) string {
 // clears screen prints welcome message, waits for user input, then proceeds to game
 func welcomeScreenAndSettings() (int, int) {
 	CallClear()
-	fmt.Println("                      Welcome, WELCOME, WELCOME!!!!")
-	fmt.Println("....................._____......................____..........................")
-	fmt.Println("..................../ __  \\..................../   |..........................")
-	fmt.Println(".................../_/..\\  \\................./_/.| |..........................")
-	fmt.Println(".........................| |.....................| |..........................")
-	fmt.Println("......................../ /......................| |..........................")
-	fmt.Println("......................./ /.......................| |..........................")
-	fmt.Println("...................../ /.........................| |..........................")
-	fmt.Println("..................../ /______.................___| |___.......................")
-	fmt.Println("...................|_________|................|________|......................\n")
-
+	gameOverBanner := figure.NewFigure("WELCOME", "slant", true)
+	gameOverBanner.Print()
+	gameOverBanner = figure.NewFigure("BLACKJACK", "slant", true)
+	gameOverBanner.Print()
 	numberOfPlayers := inputReaderToInt("How many players are there? ")
 	numberOfDecksInShoot := inputReaderToInt("How many decks would you like the shoot to have? ")
 	//time.Sleep(3 * time.Second)
@@ -324,4 +334,12 @@ func inputReaderToString(messageToUser string) string {
 	stringRead, _ := reader.ReadString('\n')
 	stringRead = strings.Replace(stringRead, "\r\n", "", -1) // change "\r\n" to "\n" for uninx, end of line termination different
 	return stringRead
+}
+
+// closes game
+func gameOver() {
+	gameOverBanner := figure.NewFigure("Game   Over", "slant", true)
+	gameOverBanner.Print()
+	time.Sleep(3 * time.Second)
+	os.Exit(3)
 }
