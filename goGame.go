@@ -7,30 +7,34 @@ import (
 
 // you shold know what a main function does... get out of here!
 func main() {
-	CallClear()
-	BannerScreen("goGame")
-	gameSelect()
-	GameOver("Thank you for playing")
+	MainMenu()
+	// GameOver("Thank you for playing")
 }
 
-func gameSelect() {
+// main menu
+func MainMenu() {
+	selectedMenu := "m"
+	for selectedMenu != "q" {
+		CallClear()
+		BannerScreen("goGame")
+		selectedMenu = menuSelect()
+		PlayGame(selectedMenu)
+	}
+}
+
+// gets user input for game selections in menu
+func menuSelect() string {
 	selection := strings.ToLower(InputReaderToString("What game would you like to play:  \n(B)  BlackJack\n(P)  Texas Holdem Poker\n(T)  TicTacToe\n(Q)  Quit\n"))
-	switch selection {
+	return selection
+}
+
+// intializes individual games
+func PlayGame(selectedMenu string) {
+	switch selectedMenu {
 	case "b":
-		numberOfPlayers, numberOfDecksInShoot := GetCardGameSettings("BLACKJACK")
-		deck := MakeDeck(numberOfDecksInShoot)
-		allPlayers := GeneratePlayers(numberOfPlayers)
-		allHands := DrawAllHands(deck, allPlayers)
-		SetCardAsUnseen(allPlayers, "Dealer", 2)
-		PrintAllHands(allHands)
-		PlayGame(allHands, deck)
-		DidPlayerWin(allHands)
+		PlayBlackjack()
 	case "p":
-		numberOfPlayers, numberOfDecksInShoot := GetCardGameSettings("Texas Hold'em")
-		deck := MakeDeck(numberOfDecksInShoot)
-		allPlayers := GeneratePlayers(numberOfPlayers)
-		allHands := DrawAllHands(deck, allPlayers)
-		PrintAllHands(allHands)
+		PlayTexasHoldem()
 	case "t":
 		BannerScreen("Tic Tac Toe")
 		TicTacToe()
@@ -38,7 +42,7 @@ func gameSelect() {
 		GameOver("Thank you for playing")
 	default:
 		fmt.Println("please select a valid option")
-		gameSelect()
+		menuSelect()
 	}
 
 }

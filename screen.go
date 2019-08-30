@@ -8,7 +8,6 @@ import (
 	"runtime"
 	"strconv"
 	"strings"
-	"time"
 
 	figure "github.com/common-nighthawk/go-figure"
 )
@@ -51,7 +50,6 @@ func GameOver(messageToUser string) {
 	fmt.Println("\n", messageToUser)
 	gameOverBanner := figure.NewFigure("Game   Over", "slant", true)
 	gameOverBanner.Print()
-	time.Sleep(3 * time.Second)
 	os.Exit(3)
 }
 

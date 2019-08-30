@@ -6,9 +6,21 @@ import (
 	"strings"
 )
 
+// strats Blackjack game
+func PlayBlackjack() {
+	numberOfPlayers, numberOfDecksInShoot := GetCardGameSettings("BLACKJACK")
+	deck := MakeDeck(numberOfDecksInShoot)
+	allPlayers := GeneratePlayers(numberOfPlayers)
+	allHands := DrawAllHands(deck, allPlayers)
+	SetCardAsUnseen(allPlayers, "Dealer", 2)
+	PrintAllHands(allHands)
+	InitializeBlackjack(allHands, deck)
+	DidPlayerWin(allHands)
+}
+
 // initializes game logic for each player to play the game
 // ** update to play in order **
-func PlayGame(allPlayers map[string]map[string]int, deck map[string]int) {
+func InitializeBlackjack(allPlayers map[string]map[string]int, deck map[string]int) {
 	for player, _ := range allPlayers {
 		allPlayers[player] = PlayerPlayHand(player, allPlayers[player], deck)
 	}

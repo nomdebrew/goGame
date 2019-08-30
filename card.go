@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math/rand"
 	"strconv"
+	"time"
 )
 
 // makes deck
@@ -36,7 +37,9 @@ func DrawHand(deck map[string]int) map[string]int {
 func DrawCard(deck map[string]int) string {
 	card := rand.Intn(52)
 	if IsDeckEmpty(deck) == true {
-		GameOver("You are out of cards")
+		fmt.Println("You are out of cards")
+		time.Sleep(3 * time.Second)
+		MainMenu()
 	}
 	if deck[PrettyCard(card%13+1, card%4)] != 0 {
 		deck[PrettyCard(card%13+1, card%4)] = deck[PrettyCard(card%13+1, card%4)] - 1
