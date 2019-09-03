@@ -15,7 +15,7 @@ func PlayTicTacToe() {
 		board, playersMark = locationSelection(board, playersMark)
 		PrintBoard(board)
 		if hasPlayerWon(board, switchPlayersMark(playersMark)) {
-			BannerScreen(playersMark + " Won")
+			BannerScreen(switchPlayersMark(playersMark + " Won"))
 			time.Sleep(3 * time.Second)
 			break
 		} else if !isBoardNotFull(board) {
@@ -113,6 +113,10 @@ func hasPlayerWonCheckDiagonalForward(board [][]string, playersMark string) bool
 
 func locationSelection(board [][]string, playersMark string) ([][]string, string) {
 	location := InputReaderToString(playersMark + ", Where would you like to place your mark? ")
+	if string(location[0]) == "" || string(location[1]) == "" || string(location[2]) != "" {
+		fmt.Println("Invalid Choice")
+		return locationSelection(board, playersMark)
+	}
 	column, row := string(location[0]), string(location[1])
 
 	switch column {
