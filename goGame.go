@@ -36,8 +36,7 @@ func PlayGame(selectedMenu string) {
 	case "p":
 		PlayTexasHoldem()
 	case "t":
-		BannerScreen("Tic Tac Toe")
-		TicTacToe()
+		PlayTicTacToe()
 	case "q":
 		GameOver("Thank you for playing")
 	default:

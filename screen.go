@@ -41,15 +41,14 @@ func CallClear() {
 
 // clears screen prints message as ASCII banner
 func BannerScreen(message string) {
-	welcomeBanner := figure.NewFigure(message, "slant", true)
-	welcomeBanner.Print()
+	bannerMessage := figure.NewFigure(message, "slant", true)
+	bannerMessage.Print()
 }
 
 // closes game
 func GameOver(messageToUser string) {
 	fmt.Println("\n", messageToUser)
-	gameOverBanner := figure.NewFigure("Game   Over", "slant", true)
-	gameOverBanner.Print()
+	BannerScreen("Game Over")
 	os.Exit(3)
 }
 

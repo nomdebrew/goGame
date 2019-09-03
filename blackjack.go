@@ -8,7 +8,8 @@ import (
 
 // strats Blackjack game
 func PlayBlackjack() {
-	numberOfPlayers, numberOfDecksInShoot := GetCardGameSettings("BLACKJACK")
+	BannerScreen("Blackjack")
+	numberOfPlayers, numberOfDecksInShoot := GetCardGameSettings()
 	deck := MakeDeck(numberOfDecksInShoot)
 	allPlayers := GeneratePlayers(numberOfPlayers)
 	allHands := DrawAllHands(deck, allPlayers)
@@ -175,8 +176,7 @@ func SetAllOfHandAsSeen(hand map[string]int) {
 }
 
 // waits for user input, then proceeds to game
-func GetCardGameSettings(gameName string) (int, int) {
-	BannerScreen(gameName)
+func GetCardGameSettings() (int, int) {
 	numberOfPlayers := InputReaderToInt("How many players are there? ")
 	numberOfDecksInShoot := InputReaderToInt("How many decks would you like the shoot to have? ")
 	CallClear()

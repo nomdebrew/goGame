@@ -6,7 +6,8 @@ import (
 )
 
 func PlayTexasHoldem() {
-	numberOfPlayers, numberOfDecksInShoot := GetCardGameSettings("Texas Hold'em")
+	BannerScreen("Texas Hold'em")
+	numberOfPlayers, numberOfDecksInShoot := GetCardGameSettings()
 	deck := MakeDeck(numberOfDecksInShoot)
 	allPlayers := GeneratePlayers(numberOfPlayers)
 	allHands := DrawAllHands(deck, allPlayers)
