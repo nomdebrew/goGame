@@ -7,6 +7,7 @@ import (
 
 // you shold know what a main function does... get out of here!
 func main() {
+	CallClear()
 	MainMenu()
 	// GameOver("Thank you for playing")
 }
@@ -15,7 +16,6 @@ func main() {
 func MainMenu() {
 	selectedMenu := "m"
 	for selectedMenu != "q" {
-		CallClear()
 		BannerScreen("goGame")
 		selectedMenu = menuSelect()
 		PlayGame(selectedMenu)

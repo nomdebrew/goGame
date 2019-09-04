@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"time"
 )
 
 func PlayTexasHoldem() {
@@ -13,5 +12,4 @@ func PlayTexasHoldem() {
 	allHands := DrawAllHands(deck, allPlayers)
 	PrintAllHands(allHands)
 	fmt.Println("\nStill woking on this part of the project")
-	time.Sleep(3 * time.Second)
 }

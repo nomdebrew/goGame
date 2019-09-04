@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
-	"time"
 )
 
 // strats Blackjack game
@@ -18,7 +17,6 @@ func PlayBlackjack() {
 	PrintAllHands(allHands)
 	InitializeBlackjack(allHands, deck)
 	DidPlayerWin(allHands)
-	time.Sleep(3 * time.Second)
 }
 
 // initializes game logic for each player to play the game
