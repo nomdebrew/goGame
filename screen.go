@@ -13,6 +13,7 @@ import (
 )
 
 // claer screen code from https://stackoverflow.com/questions/22891644/how-can-i-clear-the-terminal-screen-in-go
+// use go get https://stackoverflow.com/questions/22891644/how-can-i-clear-the-terminal-screen-in-go
 var clear map[string]func() //create a map for storing clear funcs
 
 func init() {
