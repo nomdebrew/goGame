@@ -113,7 +113,7 @@ func hasPlayerWonCheckDiagonalForward(board [][]string, playersMark string) bool
 
 func locationSelection(board [][]string, playersMark string) ([][]string, string) {
 	location := InputReaderToString(playersMark + ", Where would you like to place your mark? ")
-	if string(location[0]) == "" || string(location[1]) == "" || string(location[2]) != "" {
+	if string(location[0]) == "" || string(location[1]) == "" {
 		fmt.Println("Invalid Choice")
 		return locationSelection(board, playersMark)
 	}
