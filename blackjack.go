@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+	"time"
 )
 
 // strats Blackjack game
@@ -17,6 +18,7 @@ func PlayBlackjack() {
 	PrintAllHands(allHands)
 	InitializeBlackjack(allHands, deck)
 	DidPlayerWin(allHands)
+	time.Sleep(3 * time.Second)
 }
 
 // initializes game logic for each player to play the game
@@ -29,11 +31,12 @@ func InitializeBlackjack(allPlayers map[string]map[string]int, deck map[string]i
 
 // takes player's name, hand, deck and returns an updated hand
 func PlayerPlayHand(player string, hand map[string]int, deck map[string]int) map[string]int {
+	PrintHand(player, hand)
 	if HasHit21(hand) == true {
 		return hand
 	}
-	PrintHand(player, hand)
 	if HasPlayerBusted(hand) == true {
+		fmt.Print(" *BUSTED* ")
 		return hand
 	}
 	if player == "Dealer" {

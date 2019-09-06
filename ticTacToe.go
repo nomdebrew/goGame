@@ -15,7 +15,7 @@ func PlayTicTacToe() {
 		board, playersMark = locationSelection(board, playersMark)
 		PrintBoard(board)
 		if hasPlayerWon(board, switchPlayersMark(playersMark)) {
-			BannerScreen(switchPlayersMark(playersMark + " Won"))
+			BannerScreen(switchPlayersMark(playersMark) + " Won")
 			time.Sleep(3 * time.Second)
 			break
 		} else if !isBoardNotFull(board) {
