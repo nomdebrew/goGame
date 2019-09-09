@@ -1,5 +1,5 @@
 <h1>goGame</h1>
-<h2>What is goGame</h2>
+<h2>What is goGame?</h2>
 <p>goGame is a developing collection of games that run in terminal written in Go-Lang</p>
 <h2>Current Games</h2>
 <h3>Main Menu</h3>
