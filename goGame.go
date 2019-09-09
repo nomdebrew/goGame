@@ -24,7 +24,7 @@ func MainMenu() {
 
 // gets user input for game selections in menu
 func menuSelect() string {
-	selection := strings.ToLower(InputReaderToString("What game would you like to play:  \n(B)  BlackJack\n(P)  Texas Holdem Poker\n(T)  TicTacToe\n(Q)  Quit\n"))
+	selection := strings.ToLower(InputReaderToString("What game would you like to play:  \n(B)  BlackJack\n(P)  Texas Holdem Poker\n(T)  TicTacToe\n(S)  Sudoku\n(Q)  Quit\n"))
 	return selection
 }
 
@@ -37,6 +37,8 @@ func PlayGame(selectedMenu string) {
 		PlayTexasHoldem()
 	case "t":
 		PlayTicTacToe()
+	case "s":
+		PlaySudoku()
 	case "q":
 		GameOver("Thank you for playing")
 	default:
