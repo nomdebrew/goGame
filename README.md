@@ -7,12 +7,12 @@
 <p>Current list of games</p>
 <h3>BlackJack</h3>
 <img src="images/blackjack.PNG" height="120">
-<p>Needs a betting system</p>
+<p>Game mechanics are working for playing 21, but a betting system still needs to be implemented.</p>
 <h3>Tic-Tac-Toe</h3>
 <img src="images/tictactoe.PNG" height="120">
-<p>Needes an AI to play against</p>
+<p>Currently is two player, but will need an AI to play against.</p>
 <h3>Texas Hold'em Poker</h3>
 <img src="images/poker.PNG" height="120">
-<p>Still under development</p>
+<p>Still under development, players are dealt a hand. Need to add hand evaluation and betting system.</p>
 <h2>Future Work</h2>
-<p>Feel free to reach out with suggestion or contributions as new games are added</p>
+<p>Feel free to reach out with suggestion or contributions as new games are added.</p>
